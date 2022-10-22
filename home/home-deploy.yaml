@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: home-deploy
+  name: home-deploy
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: home-deploy
+  template:
+    metadata:
+      labels:
+        app: home-deploy
+    spec:
+      containers:
+      - image: ghcr.io/mharikmert/mharikmert.dev
+        name: mharikmert-dev

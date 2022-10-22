@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: blog-client-deploy
+  name: blog-client-deploy
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: blog-client-deploy
+  template:
+    metadata:
+      labels:
+        app: blog-client-deploy
+    spec:
+      containers:
+      - image: ghcr.io/mharikmert/personal-blog/client
+        name: client
+        envFrom: 
+          - configMapRef: 
+              name: blog-client-config

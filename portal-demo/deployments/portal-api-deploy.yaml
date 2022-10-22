@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: portal-api-deploy
+  name: portal-api-deploy
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      tier: portal-backend
+      env: prod
+  template:
+    metadata:
+      labels:
+        tier: portal-backend
+        env: prod
+    spec:
+      nodeName: master
+      containers:
+      - image: ghcr.io/mharikmert/education-portal/api
+        name: api
+        envFrom: 
+        - secretRef: 
+            name: be-prod-secrets

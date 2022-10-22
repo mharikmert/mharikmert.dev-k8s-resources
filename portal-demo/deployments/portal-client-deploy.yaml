@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: portal-client-deploy
+  name: portal-client-deploy
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      tier: portal-frontend
+  template:
+    metadata:
+      labels:
+        tier: portal-frontend
+    spec:
+      containers: 
+      - image: ghcr.io/mharikmert/education-portal/client
+        name: client
+        envFrom: 
+        - configMapRef: 
+            name: portal-frontend-config

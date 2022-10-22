@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    run: nginx
+  name: nginx-deploy-green
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: nginx-green
+  template:
+    metadata:
+      labels:
+        run: nginx-green
+    spec:
+      containers:
+      - image: nginx
+        name: nginx
+        volumeMounts:
+        - mountPath: /usr/share/nginx/html
+          name: webdata
+      initContainers:
+      - command:
+        - /bin/sh
+        - -c
+        - echo "<h1>I am <font color=green>GREEN</font></h1>" > /webdata/index.html
+        image: busybox
+        name: web-content
+        volumeMounts:
+        - mountPath: /webdata
+          name: webdata
+      volumes:
+      - emptyDir: {}
+        name: webdata
